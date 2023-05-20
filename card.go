@@ -1,6 +1,9 @@
 package deck
 
-import "fmt"
+import (
+	"fmt"
+	"sort"
+)
 
 //go:generate stringer -type Rank
 type Rank uint8
@@ -46,7 +49,7 @@ func (c Card) String() string {
 	return fmt.Sprintf("%s of %ss", c.Rank.String(), c.Suit.String())
 }
 
-func New() []Card {
+func New(options ...func([]Card) []Card) []Card {
 	cards := make([]Card, 52)
 
 	counter := 0
@@ -57,5 +60,16 @@ func New() []Card {
 		}
 	}
 
+	for _, option := range options {
+		cards = option(cards)
+	}
+
 	return cards
+}
+
+func WithSortFunction(less func([]Card) func(i, j int) bool) func([]Card) []Card {
+	return func(cards []Card) []Card {
+		sort.Slice(cards, less(cards))
+		return cards
+	}
 }

@@ -23,3 +23,18 @@ func TestNew(t *testing.T) {
 	require.Equal(t, Card{Suit: Diamond, Rank: Queen}, cards[24])
 	require.Equal(t, Card{Suit: Heart, Rank: Six}, cards[44])
 }
+
+func TestNewWithSortFunction(t *testing.T) {
+	sortFn := func(cards []Card) func(i, j int) bool {
+		// put all the 1s together, then all the 2s... all the Ks
+		return func(i, j int) bool {
+			return cards[i].Rank < cards[j].Rank
+		}
+	}
+
+	cards := New(WithSortFunction(sortFn))
+
+	require.Equal(t, Ace, cards[3].Rank)
+	require.Equal(t, Two, cards[7].Rank)
+	require.Equal(t, Three, cards[10].Rank)
+}
