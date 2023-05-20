@@ -45,3 +45,17 @@ func (c Card) String() string {
 
 	return fmt.Sprintf("%s of %ss", c.Rank.String(), c.Suit.String())
 }
+
+func New() []Card {
+	cards := make([]Card, 52)
+
+	counter := 0
+	for suit := Spade; suit <= Heart; suit++ {
+		for rank := Ace; rank <= King; rank++ {
+			cards[counter] = Card{Rank: rank, Suit: suit}
+			counter++
+		}
+	}
+
+	return cards
+}
