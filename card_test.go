@@ -32,7 +32,7 @@ func TestNewWithSortFunction(t *testing.T) {
 		}
 	}
 
-	cards := New(WithSortFunction(sortFn))
+	cards := New(Sort(sortFn))
 
 	require.Equal(t, Ace, cards[3].Rank)
 	require.Equal(t, Two, cards[7].Rank)

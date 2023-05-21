@@ -2,7 +2,9 @@ package deck
 
 import (
 	"fmt"
+	"math/rand"
 	"sort"
+	"time"
 )
 
 //go:generate stringer -type Rank
@@ -67,9 +69,17 @@ func New(options ...func([]Card) []Card) []Card {
 	return cards
 }
 
-func WithSortFunction(less func([]Card) func(i, j int) bool) func([]Card) []Card {
+func Sort(less func([]Card) func(i, j int) bool) func([]Card) []Card {
 	return func(cards []Card) []Card {
 		sort.Slice(cards, less(cards))
 		return cards
 	}
+}
+
+func Shuffle(cards []Card) []Card {
+	newRand := rand.New(rand.NewSource(time.Now().UnixNano()))
+	newRand.Shuffle(len(cards), func(i, j int) {
+		cards[i], cards[j] = cards[j], cards[i]
+	})
+	return cards
 }
