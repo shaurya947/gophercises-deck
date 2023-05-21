@@ -62,3 +62,9 @@ func TestNewFilter(t *testing.T) {
 	require.Equal(t, Five, cards[1].Rank)
 	require.Equal(t, Six, cards[2].Rank)
 }
+
+func TestNewDecks(t *testing.T) {
+	cards := New(Decks(3))
+
+	require.Equal(t, len(cards), 156)
+}

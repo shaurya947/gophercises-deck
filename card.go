@@ -108,3 +108,13 @@ func Filter(keep func(Card) bool) func([]Card) []Card {
 		return newCards
 	}
 }
+
+func Decks(n int) func([]Card) []Card {
+	return func(cards []Card) []Card {
+		var newCards []Card
+		for i := 0; i < n; i++ {
+			newCards = append(newCards, cards...)
+		}
+		return newCards
+	}
+}
