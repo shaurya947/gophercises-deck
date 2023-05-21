@@ -83,3 +83,28 @@ func Shuffle(cards []Card) []Card {
 	})
 	return cards
 }
+
+func Jokers(n int) func([]Card) []Card {
+	return func(cards []Card) []Card {
+		newCards := make([]Card, len(cards)+n)
+		for i, card := range cards {
+			newCards[i] = card
+		}
+		for i := 0; i < n; i++ {
+			newCards[len(cards)+i] = Card{Suit: Joker}
+		}
+		return newCards
+	}
+}
+
+func Filter(keep func(Card) bool) func([]Card) []Card {
+	return func(cards []Card) []Card {
+		var newCards []Card
+		for _, card := range cards {
+			if keep(card) {
+				newCards = append(newCards, card)
+			}
+		}
+		return newCards
+	}
+}
